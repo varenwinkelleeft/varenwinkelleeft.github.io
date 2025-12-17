@@ -231,20 +231,20 @@
     <div class="container">
       <h2>Contact</h2>
       <p>Vragen over de fuif, de locatie, of wil je sponsor worden? Stuur ons een bericht via onderstaand formulier.</p>
-      <form class="row g-3 needs-validation" novalidate>
+      <form action="https://formspree.io/f/mnjaajjk" method="POST" class="row g-3 needs-validation" novalidate>
         <div class="col-md-6">
           <label for="naam" class="form-label">Naam</label>
-          <input type="text" class="form-control" id="naam" required>
+          <input type="text" name="name" class="form-control" id="naam" required>
           <div class="invalid-feedback">Vul je naam in.</div>
         </div>
         <div class="col-md-6">
           <label for="email" class="form-label">E‑mail</label>
-          <input type="email" class="form-control" id="email" required>
+          <input type="email" name="email" class="form-control" id="email" required>
           <div class="invalid-feedback">Vul een geldig e‑mailadres in.</div>
         </div>
         <div class="col-12">
           <label for="bericht" class="form-label">Bericht</label>
-          <textarea class="form-control" id="bericht" rows="4" required></textarea>
+          <textarea name="message" class="form-control" id="bericht" rows="4" required></textarea>
           <div class="invalid-feedback">Schrijf je vraag of opmerking.</div>
         </div>
         <div class="col-12">
