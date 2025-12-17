@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Varenwinkel Leeft — Fuif</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Definieer Huiskleuren obv logo.jpg */
+    :root {
+        --kleur-achtergrond: #D4A056; /* Warm Okergeel */
+        --kleur-accent-rood: #C84B31; /* Terracotta Rood */
+        --kleur-accent-groen: #2D6A4F; /* Bosgroen */
+        --kleur-tekst-licht: #FFF8E7; /* Warm Crème */
+        --kleur-tekst-donker: #3A3226; /* Warme Donkerbruin */
+    }
+
+    /* Algemene Styling */
+    body {
+        color: var(--kleur-tekst-donker);
+    }
+    
+    /* NAV: Gebruik Rood voor de achtergrond */
+    .navbar-custom {
+        background-color: var(--kleur-accent-rood) !important;
+        border-bottom: 5px solid var(--kleur-accent-groen);
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+        color: var(--kleur-tekst-licht) !important;
+    }
+    .navbar-custom .navbar-brand img {
+        height: 30px; /* Grootte van het logo in de nav */
+        margin-right: 10px;
+    }
+
+    /* HERO: Gebruik Okergeel en het logo */
+    .hero {
+      background-color: var(--kleur-achtergrond);
+      color: var(--kleur-tekst-licht);
+      padding: 6rem 0;
+    }
+    .hero h1 {
+        color: var(--kleur-tekst-licht);
+        font-size: 3.5rem;
+    }
+    .hero-logo {
+        max-width: 400px;
+        width: 100%;
+        margin-bottom: 2rem;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    /* Knoppen op kleur afstemmen */
+    .btn-custom-primary {
+        background-color: var(--kleur-accent-rood);
+        border-color: var(--kleur-accent-rood);
+        color: var(--kleur-tekst-licht);
+        font-weight: bold;
+    }
+    .btn-custom-primary:hover {
+        background-color: var(--kleur-accent-groen);
+        border-color: var(--kleur-accent-groen);
+    }
+    
+    /* Carousel */
+    .carousel-item img {
+        height: 500px;
+        object-fit: cover;
+    }
+
+    /* Overige aanpassingen van de originele code */
+    .map-wrap{height:350px}
+    #locatie, #lineup {
+        background-color: #f8f9fa; /* Lichtgrijze achtergrond */
+    }
+
+    #fullscreenViewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    }
+
+    #fullscreenViewer img {
+    max-width: 95%;
+    max-height: 95%;
+    }
+
+    #closeViewer {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.countdown-box {
+  background: var(--kleur-accent-rood);
+  color: var(--kleur-tekst-licht);
+}
+
+#countdown div {
+  text-align: center;
+}
+
+#countdown span {
+  font-size: 2.5rem;
+  font-weight: bold;
+  display: block;
+}
+
+#countdown small {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" alt="Varenwinkel Leeft Logo" class="d-inline-block align-text-top rounded-circle">
+        Varenwinkel Leeft
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#info">Info</a></li>
+          <li class="nav-item"><a class="nav-link" href="#galerij">Galerij</a></li> 
+          <li class="nav-item"><a class="nav-link" href="#locatie">Locatie</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero text-center">
+    <div class="container">
+    <img src="logo.png" alt="Varenwinkel Leeft - De Fuif" class="img-fluid d-block mx-auto">
+      
+      <h1 class="fw-bold">Vierde Editie: Zaterdag 2 Mei!</h1>
+      <p class="lead mb-4">Een feest voor jong en oud met de beste DJ, livemuziek en lekkere drankjes.</p>
+      <a href="#locatie" class="btn btn-custom-primary btn-lg me-2">Vind de Locatie</a>
+    </div>
+  </header>
+
+  <hr>
+
+  <section id="info" class="py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-6">
+          <h2>Over het Evenement</h2>
+          <p>Varenwinkel Leeft brengt buurt, muziek en gezelligheid samen voor onze <b>vierde spetterende editie</b>! Verwacht een mix van lokale DJ en livemuziek, sfeervolle verlichting, lekker hamburgers en lekkere drankjes. Iedereen is welkom — kom langs, breng vrienden mee en geniet van de avond!</p>
+          <ul class="list-unstyled">
+            <li><strong style="color: var(--kleur-accent-rood);">Datum:</strong> Zaterdag 2 Mei </li>
+            <li><strong style="color: var(--kleur-accent-rood);">Start:</strong> 20:00 (Deuren open 19:30)</li>
+            <li><strong style="color: var(--kleur-accent-rood);">Betalen:</strong> Cash, kaart en Payconiq (op locatie)</li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <div class="countdown-box text-center p-4 rounded shadow">
+            <h3 class="mb-3">We zien je daar over...</h3>
+            <div id="countdown" class="d-flex justify-content-center gap-4">
+                <div><span id="days">00</span><small>Dagen</small></div>
+                <div><span id="hours">00</span><small>Uren</small></div>
+                <div><span id="minutes">00</span><small>Minuten</small></div>
+                <div><span id="seconds">00</span><small>Seconden</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+
+<section id="galerij" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Foto's van Vorig Jaar</h2>
+
+    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner" id="carouselContent"></div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Fullscreen Modal -->
+<div id="fullscreenViewer">
+  <span id="closeViewer">&times;</span>
+  <img id="fullscreenImage">
+</div>
+
+<link rel="stylesheet" href="gallery.css">
+
+  <hr>
+
+  <section id="locatie" class="py-5">
+    <div class="container">
+      <h2>Locatie</h2>
+      <p>De fuif vindt plaats op de parking van het dienstencentrum! Makkelijk bereikbaar met fiets en openbaar vervoer.</p>
+      <div class="map-wrap mb-3 rounded shadow">
+        <iframe class="w-100 h-100" frameborder="0" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d556.1374506580268!2d4.893659230018771!3d51.03220382343985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1snl!2sbe!4v1764010241727!5m2!1snl!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>      <p><strong>Exact Adres:</strong> Wolfsdonksesteenweg 204, 2230 Herselt</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="contact" class="py-5 bg-light">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Vragen over de fuif, de locatie, of wil je sponsor worden? Stuur ons een bericht via onderstaand formulier.</p>
+      <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+          <label for="naam" class="form-label">Naam</label>
+          <input type="text" class="form-control" id="naam" required>
+          <div class="invalid-feedback">Vul je naam in.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">E‑mail</label>
+          <input type="email" class="form-control" id="email" required>
+          <div class="invalid-feedback">Vul een geldig e‑mailadres in.</div>
+        </div>
+        <div class="col-12">
+          <label for="bericht" class="form-label">Bericht</label>
+          <textarea class="form-control" id="bericht" rows="4" required></textarea>
+          <div class="invalid-feedback">Schrijf je vraag of opmerking.</div>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-custom-primary" type="submit">Verstuur</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="py-4 navbar-custom text-white">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <small>© Varenwinkel Leeft — Alle rechten voorbehouden</small>
+      <div>
+        <a href="#" class="text-white me-3">Privacy</a>
+        <a href="#" class="text-white">Algemene voorwaarden</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Bootstrap form validation
+    (function () {
+      'use strict'
+      var forms = document.querySelectorAll('.needs-validation')
+      Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            } else {
+              event.preventDefault()
+              // TODO: verbinding met backend of e-mail versturen
+              alert('Bedankt — je bericht is verzonden (voorbeeld).')
+              form.reset()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
