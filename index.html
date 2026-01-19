@@ -3,56 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>Varenwinkel Leeft — Fuif</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Varenwinkel Leeft — Feestweekend 1 & 2 Mei</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* Definieer Huiskleuren obv logo.jpg */
     :root {
-        --kleur-achtergrond: #D4A056; /* Warm Okergeel */
-        --kleur-accent-rood: #C84B31; /* Terracotta Rood */
-        --kleur-accent-groen: #2D6A4F; /* Bosgroen */
-        --kleur-tekst-licht: #FFF8E7; /* Warm Crème */
-        --kleur-tekst-donker: #3A3226; /* Warme Donkerbruin */
+        --kleur-achtergrond: #D4A056; 
+        --kleur-accent-rood: #C84B31; 
+        --kleur-accent-groen: #2D6A4F; 
+        --kleur-tekst-licht: #FFF8E7; 
+        --kleur-tekst-donker: #3A3226; 
     }
 
-    /* Algemene Styling */
-    body {
-        color: var(--kleur-tekst-donker);
-    }
+    body { color: var(--kleur-tekst-donker); }
     
-    /* NAV: Gebruik Rood voor de achtergrond */
     .navbar-custom {
         background-color: var(--kleur-accent-rood) !important;
         border-bottom: 5px solid var(--kleur-accent-groen);
     }
-    .navbar-custom .navbar-brand,
-    .navbar-custom .nav-link {
-        color: var(--kleur-tekst-licht) !important;
-    }
-    .navbar-custom .navbar-brand img {
-        height: 30px; /* Grootte van het logo in de nav */
-        margin-right: 10px;
-    }
+    .navbar-custom .navbar-brand, .navbar-custom .nav-link { color: var(--kleur-tekst-licht) !important; }
+    .navbar-custom .navbar-brand img { height: 30px; margin-right: 10px; }
 
-    /* HERO: Gebruik Okergeel en het logo */
     .hero {
       background-color: var(--kleur-achtergrond);
       color: var(--kleur-tekst-licht);
       padding: 6rem 0;
     }
-    .hero h1 {
-        color: var(--kleur-tekst-licht);
-        font-size: 3.5rem;
-    }
-    .hero-logo {
-        max-width: 400px;
-        width: 100%;
-        margin-bottom: 2rem;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5);
-    }
+    .hero h1 { color: var(--kleur-tekst-licht); font-size: 3.5rem; }
 
-    /* Knoppen op kleur afstemmen */
+    /* Event Cards */
+    .event-card {
+        background: white;
+        border: 2px solid var(--kleur-accent-groen);
+        border-radius: 10px;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+    .event-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .event-header {
+        background-color: var(--kleur-accent-groen);
+        color: var(--kleur-tekst-licht);
+        padding: 15px;
+        border-radius: 8px 8px 0 0;
+        text-align: center;
+    }
+    .event-body { padding: 20px; }
+
     .btn-custom-primary {
         background-color: var(--kleur-accent-rood);
         border-color: var(--kleur-accent-rood);
@@ -64,74 +60,98 @@
         border-color: var(--kleur-accent-groen);
     }
     
-    /* Carousel */
-    .carousel-item img {
-        height: 500px;
+    /* --- GALLERY GRID STYLING --- */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        height: 250px; 
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        background-color: #eee;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        transition: transform 0.4s ease;
     }
 
-    /* Overige aanpassingen van de originele code */
-    .map-wrap{height:350px}
-    #locatie, #lineup {
-        background-color: #f8f9fa; /* Lichtgrijze achtergrond */
-    }
+    .gallery-item:hover img { transform: scale(1.1); }
 
+    /* --- Viewer --- */
     #fullscreenViewer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.95);
+        display: none;
+        justify-content: center; align-items: center;
+        z-index: 9999;
+        opacity: 0; transition: opacity 0.3s ease;
     }
-
+    #fullscreenViewer.active { display: flex; opacity: 1; }
     #fullscreenViewer img {
-    max-width: 95%;
-    max-height: 95%;
+        max-width: 90%; max-height: 90%;
+        border: 4px solid white; border-radius: 4px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    #closeViewer {
+        position: absolute; top: 20px; right: 40px;
+        color: white; font-size: 50px; cursor: pointer; z-index: 10000;
     }
 
-    #closeViewer {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: white;
-    font-size: 40px;
-    cursor: pointer;
-}
+    .countdown-box { background: var(--kleur-accent-rood); color: var(--kleur-tekst-licht); margin-top: 2rem; }
+    #countdown div { text-align: center; }
+    #countdown span { font-size: 2.5rem; font-weight: bold; display: block; }
+    #countdown small { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
 
-.countdown-box {
-  background: var(--kleur-accent-rood);
-  color: var(--kleur-tekst-licht);
-}
+    /* --- SPONSOR SECTION STYLING --- */
+    .sponsor-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Centreer de logo's */
+        align-items: center;     /* Verticaal uitlijnen */
+        gap: 2rem;               /* Ruimte tussen logo's */
+    }
 
-#countdown div {
-  text-align: center;
-}
+    .sponsor-logo {
+        transition: transform 0.3s ease, filter 0.3s ease;
+        filter: grayscale(100%); /* Maak ze standaard zwart-wit voor rustig beeld */
+        opacity: 0.8;
+        width: auto; /* Behoud aspect ratio */
+    }
 
-#countdown span {
-  font-size: 2.5rem;
-  font-weight: bold;
-  display: block;
-}
+    .sponsor-logo:hover {
+        filter: grayscale(0%); /* Kleur bij hover */
+        opacity: 1;
+        transform: scale(1.05);
+    }
 
-#countdown small {
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+    /* Definieer de grootte op basis van de sponsoring tier */
+    .tier-hoofd { height: 150px; }  /* Hoofdsponsor: Grootst */
+    .tier-groot { height: 90px; }   /* Grote sponsor: Middel */
+    .tier-normaal { height: 50px; } /* Normale sponsor: Klein */
 
-
+    /* Mobiele aanpassing: maak ze iets kleiner op telefoons */
+    @media (max-width: 768px) {
+        .tier-hoofd { height: 100px; }
+        .tier-groot { height: 60px; }
+        .tier-normaal { height: 35px; }
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <img src="logo.png" alt="Varenwinkel Leeft Logo" class="d-inline-block align-text-top rounded-circle">
+        <img src="logo.png" alt="Logo" class="d-inline-block align-text-top rounded-circle">
         Varenwinkel Leeft
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -139,7 +159,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#info">Info</a></li>
+          <li class="nav-item"><a class="nav-link" href="#programma">Programma</a></li>
           <li class="nav-item"><a class="nav-link" href="#galerij">Galerij</a></li> 
           <li class="nav-item"><a class="nav-link" href="#locatie">Locatie</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
@@ -150,38 +170,37 @@
 
   <header class="hero text-center">
     <div class="container">
-    <img src="logo.png" alt="Varenwinkel Leeft - De Fuif" class="img-fluid d-block mx-auto">
-      
-      <h1 class="fw-bold">Vierde Editie: Zaterdag 2 Mei!</h1>
-      <p class="lead mb-4">Een feest voor jong en oud met de beste DJ, livemuziek en lekkere drankjes.</p>
-      <a href="#locatie" class="btn btn-custom-primary btn-lg me-2">Vind de Locatie</a>
+      <img src="logo.png" alt="Logo" class="img-fluid d-block mx-auto" style="max-height: 200px;">
+      <h1 class="fw-bold mt-3">Feestweekend: 1 & 2 Mei!</h1>
+      <p class="lead mb-4">Twee dagen plezier: Bingo op vrijdag en Fuif op zaterdag.</p>
+      <a href="#programma" class="btn btn-custom-primary btn-lg me-2">Bekijk het Programma</a>
     </div>
   </header>
 
   <hr>
 
-  <section id="info" class="py-5">
+  <section id="programma" class="py-5">
     <div class="container">
-      <div class="row g-4 align-items-center">
-        <div class="col-md-6">
-          <h2>Over het Evenement</h2>
-          <p>Varenwinkel Leeft brengt buurt, muziek en gezelligheid samen voor onze <b>vierde spetterende editie</b>! Verwacht een mix van lokale DJ en livemuziek, sfeervolle verlichting, lekker hamburgers en lekkere drankjes. Iedereen is welkom — kom langs, breng vrienden mee en geniet van de avond!</p>
-          <ul class="list-unstyled">
-            <li><strong style="color: var(--kleur-accent-rood);">Datum:</strong> Zaterdag 2 Mei </li>
-            <li><strong style="color: var(--kleur-accent-rood);">Start:</strong> 20:00 (Deuren open 19:30)</li>
-            <li><strong style="color: var(--kleur-accent-rood);">Betalen:</strong> Cash, kaart en Payconiq (op locatie)</li>
-          </ul>
-        </div>
-        <div class="col-md-6">
-          <div class="countdown-box text-center p-4 rounded shadow">
-            <h3 class="mb-3">We zien je daar over...</h3>
-            <div id="countdown" class="d-flex justify-content-center gap-4">
-                <div><span id="days">00</span><small>Dagen</small></div>
-                <div><span id="hours">00</span><small>Uren</small></div>
-                <div><span id="minutes">00</span><small>Minuten</small></div>
-                <div><span id="seconds">00</span><small>Seconden</small></div>
+      <div class="text-center mb-5">
+        <h2>Het Programma</h2>
+        <p>Varenwinkel Leeft brengt buurt, muziek en gezelligheid samen!</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-5"><div class="event-card"><div class="event-header"><h3 class="m-0">Vrijdag 1 Mei</h3><small>Grote Bingo Avond</small></div><div class="event-body text-center"><h4 style="color: var(--kleur-accent-rood);">Bingo!</h4><p>Plezier voor jong en oud.</p><hr><ul class="list-unstyled"><li>Deuren open: 18:00</li><li>Start: 19:30</li></ul></div></div></div>
+        <div class="col-md-5"><div class="event-card"><div class="event-header"><h3 class="m-0">Zaterdag 2 Mei</h3><small>Varenwinkel Leeft Fuif</small></div><div class="event-body text-center"><h4 style="color: var(--kleur-accent-rood);">De Fuif</h4><p>Dans de nacht in!</p><hr><ul class="list-unstyled"><li>Deuren open: 20:00</li><li>STEAM coverband & DJ</li><li>Einde: 03:00</li></ul></div></div></div>
+      </div>
+      
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="countdown-box text-center p-4 rounded shadow">
+                <h3 class="mb-3">We starten over...</h3>
+                <div id="countdown" class="d-flex justify-content-center gap-4">
+                    <div><span id="days">00</span><small>Dagen</small></div>
+                    <div><span id="hours">00</span><small>Uren</small></div>
+                    <div><span id="minutes">00</span><small>Minuten</small></div>
+                    <div><span id="seconds">00</span><small>Seconden</small></div>
+                </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -189,40 +208,35 @@
 
   <hr>
 
-<section id="galerij" class="py-5 bg-light">
-  <div class="container">
-    <h2 class="text-center mb-5">Foto's van Vorig Jaar</h2>
-
-    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner" id="carouselContent"></div>
-
-      <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-
-      <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
+  <section id="galerij" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-5">Foto's van Vorig Jaar</h2>
+      <div class="gallery-grid" id="galleryGrid"></div>
     </div>
+  </section>
+
+  <div id="fullscreenViewer">
+    <span id="closeViewer">×</span>
+    <img id="fullscreenImage" src="" alt="Volledig Scherm">
   </div>
-</section>
-
-<!-- Fullscreen Modal -->
-<div id="fullscreenViewer">
-  <span id="closeViewer">&times;</span>
-  <img id="fullscreenImage">
-</div>
-
-<link rel="stylesheet" href="gallery.css">
 
   <hr>
 
   <section id="locatie" class="py-5">
     <div class="container">
       <h2>Locatie</h2>
-      <p>De fuif vindt plaats op de parking van het dienstencentrum! Makkelijk bereikbaar met fiets en openbaar vervoer.</p>
-      <div class="map-wrap mb-3 rounded shadow">
-        <iframe class="w-100 h-100" frameborder="0" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d556.1374506580268!2d4.893659230018771!3d51.03220382343985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1snl!2sbe!4v1764010241727!5m2!1snl!2sbe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>      <p><strong>Exact Adres:</strong> Wolfsdonksesteenweg 204, 2230 Herselt</p>
+      <iframe class="w-100 rounded shadow" height="400" frameborder="0" src="https://maps.google.com/maps?q=Wolfsdonksesteenweg+204,+Herselt&t=&z=13&ie=UTF8&iwloc=&output=embed" style="border:0;" allowfullscreen=""></iframe>      
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="sponsors" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Onze Sponsors</h2>
+        <p class="text-center text-muted mb-5">Mede mogelijk gemaakt door de steun van:</p>
+        
+        <div id="sponsorContainer" class="sponsor-container"></div>
     </div>
   </section>
 
@@ -230,89 +244,129 @@
 
   <section id="contact" class="py-5 bg-light">
     <div class="container">
-      <h2>Contact</h2>
-      <p>Vragen over de fuif, de locatie, of wil je sponsor worden? Stuur ons een bericht.</p>
-      
-      <form action="https://formspree.io/f/mnjaajjk" method="POST" class="row g-3 needs-validation" novalidate>
-        <div class="col-md-6">
-          <label for="naam" class="form-label">Naam</label>
-          <input type="text" name="name" class="form-control" id="naam" required>
-          <div class="invalid-feedback">Vul je naam in.</div>
-        </div>
-        <div class="col-md-6">
-          <label for="email" class="form-label">E‑mail</label>
-          <input type="email" name="email" class="form-control" id="email" required>
-          <div class="invalid-feedback">Vul een geldig e‑mailadres in.</div>
-        </div>
-        <div class="col-12">
-          <label for="bericht" class="form-label">Bericht</label>
-          <textarea name="message" class="form-control" id="bericht" rows="4" required></textarea>
-          <div class="invalid-feedback">Schrijf je vraag of opmerking.</div>
-        </div>
-        <div class="col-12">
-          <button class="btn btn-custom-primary" type="submit">Verstuur</button>
-        </div>
-      </form>
+        <h2>Contact</h2>
+        <form action="https://formspree.io/f/mnjaajjk" method="POST" class="row g-3 needs-validation" novalidate>
+            <div class="col-md-6"><input type="text" name="name" class="form-control" placeholder="Naam" required></div>
+            <div class="col-md-6"><input type="email" name="email" class="form-control" placeholder="Email" required></div>
+            <div class="col-12"><textarea name="message" class="form-control" rows="4" placeholder="Bericht" required></textarea></div>
+            <div class="col-12"><button class="btn btn-custom-primary" type="submit">Verstuur</button></div>
+        </form>
     </div>
   </section>
 
   <footer class="py-4 navbar-custom text-white">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <small>© Varenwinkel Leeft — Alle rechten voorbehouden</small>
-      <div>
-        <a href="#" class="text-white me-3">Privacy</a>
-        <a href="#" class="text-white">Algemene voorwaarden</a>
-      </div>
-    </div>
+    <div class="container text-center"><small>© Varenwinkel Leeft</small></div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- SPONSOR CONFIGURATIE ---
+        // Voeg hier je sponsors toe. 
+        // type: "hoofd", "groot", of "normaal"
+        const sponsorData = [
+            { name: "Hoofdsponsor Janssens", logo: "https://placehold.co/400x200?text=HOOFDSPONSOR", url: "#", type: "hoofd" },
+            { name: "Garage Peeters", logo: "https://placehold.co/300x150?text=Grote+Sponsor", url: "#", type: "groot" },
+            { name: "Bouwbedrijf X", logo: "https://placehold.co/300x150?text=Grote+Sponsor+2", url: "#", type: "groot" },
+            { name: "Bakkerij 't Hoekje", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
+            { name: "Frituur De Markt", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
+            { name: "Kapsalon Els", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
+            { name: "Cafe De Sportvriend", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" }
+        ];
+
+        const sponsorContainer = document.getElementById('sponsorContainer');
+        
+        // Bouw de sponsorlijst
+        sponsorData.forEach(sponsor => {
+            const link = document.createElement('a');
+            link.href = sponsor.url;
+            link.target = "_blank"; // Open in nieuw tabblad
+            link.title = sponsor.name;
+
+            const img = document.createElement('img');
+            img.src = sponsor.logo;
+            img.alt = sponsor.name;
+            
+            // Voeg basis class en specifieke tier class toe
+            img.classList.add('sponsor-logo');
+            img.classList.add(`tier-${sponsor.type}`); 
+
+            link.appendChild(img);
+            sponsorContainer.appendChild(link);
+        });
+
+
+        // --- GALLERY LOGIC ---
+        const totalImages = 15; 
+        const folderPath = 'assets/img/gallery/';
+        const galleryGrid = document.getElementById('galleryGrid');
+        
+        for (let i = 1; i <= totalImages; i++) {
+            const div = document.createElement('div');
+            div.className = 'gallery-item';
+            const img = document.createElement('img');
+            img.src = `${folderPath}${i}.jpg`; 
+            img.alt = `Foto ${i}`;
+            img.loading = "lazy";
+            img.onerror = function() { div.style.display = 'none'; };
+            div.appendChild(img);
+            galleryGrid.appendChild(div);
+            div.addEventListener('click', function() { openViewer(img.src); });
+        }
+
+        // --- VIEWER LOGIC ---
+        const viewer = document.getElementById('fullscreenViewer');
+        const viewerImg = document.getElementById('fullscreenImage');
+        const closeBtn = document.getElementById('closeViewer');
+
+        function openViewer(src) { viewerImg.src = src; viewer.classList.add('active'); }
+        function closeGallery() { viewer.classList.remove('active'); setTimeout(() => { viewerImg.src = ''; }, 300); }
+
+        if(closeBtn) closeBtn.addEventListener('click', closeGallery);
+        if(viewer) viewer.addEventListener('click', (e) => { if (e.target === viewer) closeGallery(); });
+    });
+
+    // --- FORM LOGIC ---
     (function () {
       'use strict'
       const form = document.querySelector('.needs-validation')
-      
-      form.addEventListener('submit', function (event) {
-        // Stop standaard verzending altijd even om validatie te checken
-        event.preventDefault()
-        event.stopPropagation()
+      if(form){
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                return;
+            }
+            form.classList.add('was-validated');
+            const btn = form.querySelector('button');
+            btn.disabled = true; btn.innerText = "Verzenden...";
+            fetch(form.action, { method: 'POST', body: new FormData(form), headers: {'Accept': 'application/json'} })
+            .then(r => r.ok ? alert('Verzonden!') : alert('Fout bij verzenden'))
+            .finally(() => { btn.disabled = false; btn.innerText = "Verstuur"; form.reset(); form.classList.remove('was-validated'); });
+        }, false)
+      }
+    })();
 
-        if (!form.checkValidity()) {
-          form.classList.add('was-validated')
-          return; // Stop als het niet geldig is
-        }
-
-        form.classList.add('was-validated')
-
-        // Handmatige verzending naar Formspree zodat we zeker weten dat de data mee gaat
-        const data = new FormData(form);
-        const button = form.querySelector('button[type="submit"]');
-        button.disabled = true;
-        button.innerText = "Verzenden...";
-
-        fetch(form.action, {
-          method: 'POST',
-          body: data,
-          headers: {
-            'Accept': 'application/json'
-          }
-        }).then(response => {
-          if (response.ok) {
-            alert('Bedankt! Je bericht is succesvol verzonden.');
-            form.reset();
-            form.classList.remove('was-validated');
-          } else {
-            alert('Oeps! Er ging iets mis bij het verzenden.');
-          }
-        }).catch(error => {
-          alert('Er is een netwerkfout opgetreden.');
-        }).finally(() => {
-          button.disabled = false;
-          button.innerText = "Verstuur";
-        });
-      }, false)
-    })()
+    // --- COUNTDOWN LOGIC ---
+    const eventDate = new Date("May 1, 2026 20:00:00").getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+      if (distance < 0) { document.getElementById("countdown").innerHTML = "<h4>Het feest is begonnen! 🎉</h4>"; return; }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
-  <script src="script.js"></script>
-</body>
+  </body>
 </html>
