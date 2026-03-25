@@ -312,7 +312,7 @@
 
 
         // --- GALLERY LOGIC ---
-        const totalImages = 15; 
+        const totalImages = 19; 
         const folderPath = 'assets/img/gallery/';
         const galleryGrid = document.getElementById('galleryGrid');
         
@@ -320,10 +320,18 @@
             const div = document.createElement('div');
             div.className = 'gallery-item';
             const img = document.createElement('img');
-            img.src = `${folderPath}${i}.jpg`; 
+            img.src = `${folderPath}${i}.jpg`;
             img.alt = `Foto ${i}`;
             img.loading = "lazy";
-            img.onerror = function() { div.style.display = 'none'; };
+            img.onerror = function() {
+              // GitHub Pages is case-sensitive; retry with uppercase extension.
+              if (img.src.toLowerCase().endsWith('.jpg') && !img.dataset.triedUppercase) {
+                img.dataset.triedUppercase = '1';
+                img.src = `${folderPath}${i}.JPG`;
+                return;
+              }
+              div.style.display = 'none';
+            };
             div.appendChild(img);
             galleryGrid.appendChild(div);
             div.addEventListener('click', function() { openViewer(img.src); });
