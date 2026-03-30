@@ -114,36 +114,32 @@
 
     /* --- SPONSOR SECTION STYLING --- */
     .sponsor-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center; /* Centreer de logo's */
-        align-items: center;     /* Verticaal uitlijnen */
-        gap: 2rem;               /* Ruimte tussen logo's */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      align-items: center;
+      justify-items: center;
     }
 
     .sponsor-logo {
-        transition: transform 0.3s ease, filter 0.3s ease;
-        filter: grayscale(100%); /* Maak ze standaard zwart-wit voor rustig beeld */
-        opacity: 0.8;
-        width: auto; /* Behoud aspect ratio */
+      width: 200px;
+      height: 130px;
+      object-fit: contain;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
+      filter: grayscale(100%);
+      opacity: 0.9;
     }
 
     .sponsor-logo:hover {
-        filter: grayscale(0%); /* Kleur bij hover */
-        opacity: 1;
-        transform: scale(1.05);
-    }
-
-    /* Definieer de grootte op basis van de sponsoring tier */
-    .tier-hoofd { height: 150px; }  /* Hoofdsponsor: Grootst */
-    .tier-groot { height: 90px; }   /* Grote sponsor: Middel */
-    .tier-normaal { height: 50px; } /* Normale sponsor: Klein */
-
-    /* Mobiele aanpassing: maak ze iets kleiner op telefoons */
-    @media (max-width: 768px) {
-        .tier-hoofd { height: 100px; }
-        .tier-groot { height: 60px; }
-        .tier-normaal { height: 35px; }
+      filter: grayscale(0%);
+      opacity: 1;
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
     }
   </style>
 </head>
@@ -276,39 +272,39 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
         
-        // --- SPONSOR CONFIGURATIE ---
-        // Voeg hier je sponsors toe. 
-        // type: "hoofd", "groot", of "normaal"
-        const sponsorData = [
-            { name: "Hoofdsponsor Janssens", logo: "https://placehold.co/400x200?text=HOOFDSPONSOR", url: "#", type: "hoofd" },
-            { name: "Garage Peeters", logo: "https://placehold.co/300x150?text=Grote+Sponsor", url: "#", type: "groot" },
-            { name: "Bouwbedrijf X", logo: "https://placehold.co/300x150?text=Grote+Sponsor+2", url: "#", type: "groot" },
-            { name: "Bakkerij 't Hoekje", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
-            { name: "Frituur De Markt", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
-            { name: "Kapsalon Els", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" },
-            { name: "Cafe De Sportvriend", logo: "https://placehold.co/200x100?text=Sponsor", url: "#", type: "normaal" }
-        ];
-
+        const sponsorFolder = 'assets/img/sponsors/';
         const sponsorContainer = document.getElementById('sponsorContainer');
-        
-        // Bouw de sponsorlijst
-        sponsorData.forEach(sponsor => {
-            const link = document.createElement('a');
-            link.href = sponsor.url;
-            link.target = "_blank"; // Open in nieuw tabblad
-            link.title = sponsor.name;
 
-            const img = document.createElement('img');
-            img.src = sponsor.logo;
-            img.alt = sponsor.name;
-            
-            // Voeg basis class en specifieke tier class toe
-            img.classList.add('sponsor-logo');
-            img.classList.add(`tier-${sponsor.type}`); 
+        function formatSponsorName(fileName) {
+          return fileName
+            .replace(/\.[^.]+$/, '')
+            .replace(/[-_]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        }
 
-            link.appendChild(img);
-            sponsorContainer.appendChild(link);
-        });
+        async function loadSponsors() {
+          if (!sponsorContainer) return;
+          try {
+            const response = await fetch(`${sponsorFolder}manifest.json`, { cache: 'no-cache' });
+            if (!response.ok) throw new Error('manifest not gevonden');
+            const files = await response.json();
+            files.forEach(file => {
+              const img = document.createElement('img');
+              img.loading = 'lazy';
+              img.src = `${sponsorFolder}${file}`;
+              img.alt = formatSponsorName(file);
+              img.classList.add('sponsor-logo');
+              img.onerror = () => img.remove();
+              sponsorContainer.appendChild(img);
+            });
+          } catch (err) {
+            console.error('Sponsors konden niet geladen worden', err);
+            sponsorContainer.innerHTML = '<p class="text-muted">Sponsors konden niet geladen worden.</p>';
+          }
+        }
+
+        loadSponsors();
 
 
         // --- GALLERY LOGIC ---
